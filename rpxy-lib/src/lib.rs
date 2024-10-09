@@ -24,6 +24,7 @@ use hot_reload::ReloaderReceiver;
 use rpxy_certs::ServerCryptoBase;
 use std::sync::Arc;
 use tokio_util::sync::CancellationToken;
+use rustls::crypto;
 
 /* ------------------------------------------------ */
 pub use crate::globals::{AppConfig, AppConfigList, ProxyConfig, ReverseProxyConfig, TlsConfig, UpstreamUri};
@@ -52,6 +53,8 @@ pub struct RpxyOptions {
 
 /// Entrypoint that creates and spawns tasks of reverse proxy services
 pub async fn entrypoint(
+  let _=crypto::CryptoProvider::install_default(crypto::aws_lc_rs::default_provider());
+
   RpxyOptions {
     proxy_config,
     app_config_list,
