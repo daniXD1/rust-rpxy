@@ -18,9 +18,12 @@ use hot_reload::{ReloaderReceiver, ReloaderService};
 use rpxy_lib::{entrypoint, RpxyOptions, RpxyOptionsBuilder};
 use std::sync::Arc;
 use tokio_util::sync::CancellationToken;
+use rustls::crypto;
 
 fn main() {
   init_logger();
+
+  let _=crypto::CryptoProvider::install_default(crypto::aws_lc_rs::default_provider());
 
   let mut runtime_builder = tokio::runtime::Builder::new_multi_thread();
   runtime_builder.enable_all();
